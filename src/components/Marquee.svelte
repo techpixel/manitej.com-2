@@ -5,9 +5,9 @@
     onMount(() => {
         let offset = 0;
         
-        const transformFn = (widthFactor: number, mid: number, amplitude: number) => {
+        const transformFn = (widthFactor: number, mid: number, amplitude: number, aO: number = 1) => {
             return ([x, y, oy]: [number, number, number]) => {
-                const sinOffset = Math.sin(x / widthFactor + offset);
+                const sinOffset = Math.sin(x / widthFactor + offset + aO) * aO;
                 return [x, oy + mid + amplitude * sinOffset, oy];
             };
         };
@@ -49,7 +49,7 @@
             const mid = marq2Height / 2;
 
             function animate() {
-                warp.transform(transformFn(widthFactor, mid, amplitude));
+                warp.transform(transformFn(widthFactor, mid, amplitude, Math.PI / 3));
                 requestAnimationFrame(animate);
             }
 
@@ -70,7 +70,7 @@
             const mid = marq1Height / 2;
 
             function animate() {
-                warp.transform(transformFn(widthFactor, mid, amplitude));
+                warp.transform(transformFn(widthFactor, mid, amplitude, Math.PI / 4.5));
                 requestAnimationFrame(animate);
             }
 
