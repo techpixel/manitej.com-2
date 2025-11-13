@@ -14,7 +14,7 @@
 
         const marq3 = document.querySelectorAll<SVGElement>("#marq3 .jelly");
         const marq3Height = 230;
-        const speed = 0.025;
+        const speed = 0.005;
 
         marq3.forEach((el) => {
             const warp = new Warp(el);

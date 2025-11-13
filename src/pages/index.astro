@@ -4,8 +4,82 @@ import Layout from '../layouts/Layout.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+const today = new Date();
 ---
 
 <Layout>
+	<div class="outer">
+		<div class="inner top">
+			<h1 style="text-align: left;">YOU'RE ON</h1>
+			<p style="text-align: right;">this place is under construction.</p>
+		</div>
+	</div>
+
 	<Marquee client:only/>
+
+	<div class="outer bottom">
+		<div class="inner bottom">
+			<p style="text-align: left;">Volume II, No. 11</p>
+			<p style="text-align: center;"><span class="special-edition">SPECIAL EDITION</span></p>
+			<p style="text-align: right;">{today.getMonth()}-{today.getDate()}-{today.getFullYear()}</p>
+		</div>
+	</div>
 </Layout>
+
+<style>
+	.outer {
+		width: 100%;
+	}
+
+	.inner.bottom {
+		margin: 40px;
+		height: 32px;
+
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
+
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.inner.top {
+		margin: 40px;
+		height: 32px;
+
+		border-bottom: 1px solid black;
+
+		display: flex;
+		justify-content: space-between;
+		text-align: center;
+		align-items: center;
+	}
+
+	.inner * {
+		flex-grow: 1;
+	}
+
+	h1, strong {
+		font-family: 'Cinzel', serif;
+		font-weight: 700;
+		margin: 0;
+	}
+
+	h1 {
+		font-size: 56px;
+	}
+
+	.special-edition {
+		font-family: 'Cinzel', serif;
+		font-weight: 700;
+		font-size: 24px;
+	}
+
+	p {
+		font-family: 'IBM Plex Serif', serif;
+		font-weight: 400;
+		font-size: 18px;
+		margin: 0;
+	}
+</style>
