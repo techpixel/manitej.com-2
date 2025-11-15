@@ -9,77 +9,157 @@ const today = new Date();
 ---
 
 <Layout>
-	<div class="outer">
-		<div class="inner top">
-			<h1 style="text-align: left;">YOU'RE ON</h1>
-			<p style="text-align: right;">this place is under construction.</p>
+	<div class="topbar">
+		<h1 style="text-align: left;">YOU'RE ON</h1>
+		<div class="accent">
+			<div class="inner" />
 		</div>
 	</div>
 
 	<Marquee client:only/>
 
-	<div class="outer bottom">
-		<div class="inner bottom">
-			<p style="text-align: left;">Volume II, No. 11</p>
-			<p style="text-align: center;"><span class="special-edition">SPECIAL EDITION</span></p>
-			<p style="text-align: right;">{today.getMonth()}-{today.getDate()}-{today.getFullYear()}</p>
+	<div class="special-edition-header">
+		<div class="header-text">
+			<p>Volume II, No. 12</p>
+			<p><strong>SPECIAL EDITION</strong></p>
+			<p>11-11-2011</p>
 		</div>
+	</div>
+
+	<div class="accent-header">
+		<div class="inner" />
+	</div>
+
+	<div class="nav">
+		<div class="desig"></div>
+		<div class="about"></div>
+		<div class="library"></div>
 	</div>
 </Layout>
 
 <style>
-	.outer {
+	.topbar {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+
 		width: 100%;
+		height: 90px;
+
+		h1 {
+			font-family: 'Rubik', sans-serif;
+			font-weight: 700;
+			font-size: 140px;
+			color: #47425E;
+			margin: 0;
+
+			text-wrap: nowrap;
+			width: min-content;
+
+			line-height: 0.65;
+
+			z-index: 10;
+
+			padding-left: 36px;
+
+			width: 55%;
+		}
+
+		.accent {
+			background-color: #FFB1A3;
+		
+			height: 90px;
+
+			z-index: 0;
+
+			width: 45%;
+		}
+
+		.accent .inner {
+				width: 100%;
+				height: 100%;
+
+				background-image: url('/public/topbar.svg');
+				background-position: center center;
+				background-size: 15% 130%;
+			}
 	}
 
-	.inner.bottom {
-		margin: 40px;
-		height: 32px;
-
-		border-top: 1px solid black;
-		border-bottom: 1px solid black;
-
+	.special-edition-header {
 		display: flex;
-		justify-content: space-between;
+		flex-direction: row;
 		align-items: center;
+		justify-content: center;
+
+		width: 100%;
+		height: 36px;
+
+		background-color: #02B9BE;
+		color: #FFEECC;
+
+		font-family: 'Rubik', sans-serif;
+		font-weight: 500;
+		font-size: 20px;
+
+		.header-text {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+
+			width: 80%;
+		}
 	}
 
-	.inner.top {
-		margin: 40px;
-		height: 32px;
+	.accent-header {
+		width: 100%;
+		height: 36px;
 
-		border-bottom: 1px solid black;
+		background-color: #47425E;
 
+		.inner {
+			width: 100%;
+			height: 100%;
+
+			background-image: url('/public/circle.svg');
+			background-repeat: space;
+
+			background-position: center center;
+		}
+	}
+
+	.nav {
 		display: flex;
-		justify-content: space-between;
-		text-align: center;
+		flex-direction: row;
 		align-items: center;
+
+		height: 266px;
 	}
 
-	.inner * {
-		flex-grow: 1;
+	.desig {
+		background-color: #47425E;
+		border: 12px solid #02B9BE;
+		box-sizing: border-box;
+
+		width: 205px;
+		height: 100%;
 	}
 
-	h1, strong {
-		font-family: 'Cinzel', serif;
-		font-weight: 700;
-		margin: 0;
+	.library {
+		box-sizing: border-box;
+		border: 24px solid #FF6A73;
+
+		background-color: #FFB1A3;
+
+		height: 100%;
+		width: 300px;
 	}
 
-	h1 {
-		font-size: 56px;
-	}
+	.about {
+		background-color: #15788C;
 
-	.special-edition {
-		font-family: 'Cinzel', serif;
-		font-weight: 700;
-		font-size: 24px;
-	}
-
-	p {
-		font-family: 'IBM Plex Serif', serif;
-		font-weight: 400;
-		font-size: 18px;
-		margin: 0;
+		width: 693px;
+		height: 100%;
 	}
 </style>
