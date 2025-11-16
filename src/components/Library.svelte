@@ -2,7 +2,7 @@
     // No script needed for this component
 </script>
 
-<div class="library" style="width: 100%;">
+<div class="library" style="width: 60%;">
     <div class="overlay">
         <p>coming soon</p>
     </div>

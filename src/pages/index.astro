@@ -1,6 +1,7 @@
 ---
 import Marquee from '../components/Marquee.svelte';
-import Library from '../components/Library.svelte'; 
+import Library from '../components/Library.svelte';
+import Gallery from '../components/Gallery.svelte'; 
 import Layout from '../layouts/Layout.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -31,7 +32,10 @@ const today = new Date();
 		<div class="inner" />
 	</div>
 
-	<Library />
+	<div class="grid-thing">
+		<Gallery />
+		<Library />
+	</div>
 </Layout>
 
 <style>
