@@ -12,10 +12,7 @@ const today = new Date();
 
 <Layout>
 	<div class="topbar">
-		<h1 style="text-align: left;">YOU'RE ON</h1>
-		<div class="accent">
-			<div class="inner" />
-		</div>
+		<h1 style="text-align: left;">YOU'RE ON MANITEJ DOT COM</h1>
 	</div>
 
 	<Marquee client:only/>
@@ -53,13 +50,13 @@ const today = new Date();
 		justify-content: flex-start;
 
 		width: 100%;
-		height: 90px;
+		height: 60px;
 
 		h1 {
 			font-family: 'Rubik', sans-serif;
 			font-weight: 700;
-			font-size: 140px;
-			color: #47425E;
+			font-size: 90px;
+			color: var(--secondary-black);
 			margin: 0;
 
 			text-wrap: nowrap;
@@ -69,41 +66,9 @@ const today = new Date();
 
 			z-index: 10;
 
-			padding-left: 36px;
-
-			width: 55%;
+			width: 100%;
 
 			user-select: none;
-		}
-
-		.accent {
-			background-color: #FFB1A3;
-		
-			height: 90px;
-
-			z-index: 0;
-
-			width: 45%;
-		}
-
-		.accent .inner {
-			width: 100%;
-			height: 100%;
-
-			background-image: url('/public/topbar.svg');
-			background-position: center center;
-			background-size: 15% 130%;
-
-			animation: slideX 30s linear infinite;
-		}
-	}
-
-	@keyframes slideX {
-		from {
-			background-position: 0px center;
-		}
-		to {
-			background-position: 1000px center;
 		}
 	}
 
@@ -116,8 +81,8 @@ const today = new Date();
 		width: 100%;
 		height: 36px;
 
-		background-color: #02B9BE;
-		color: #FFEECC;
+		background-color: var(--secondary-color);
+		color: var(--primary-white);
 
 		font-family: 'Rubik', sans-serif;
 		font-weight: 500;
@@ -141,7 +106,7 @@ const today = new Date();
 		width: 100%;
 		height: 36px;
 
-		background-color: #47425E;
+		background-color: var(--secondary-black);
 
 		.inner {
 			width: 100%;

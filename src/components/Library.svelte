@@ -112,7 +112,7 @@
         font-style: italic;
         font-size: 64px;
         font-weight: 600;
-        color: #FFEECC;
+        color: var(--primary-white);
     }
 
 	.library {
@@ -124,14 +124,14 @@
 
 		height: 266px;
 
-		background-color: #FF6A73;
+		background-color: var(--primary-color);
 	}
 
 	.quote {
-		border: 24px solid #FF6A73;
+		border: 24px solid var(--primary-color);
 		box-sizing: border-box;
 
-		background-color: #FFB1A3;
+		background-color: var(--primary-accent);
 
 		height: 266px;
 		width: 416px;
@@ -165,7 +165,7 @@
 		leading-trim: both;
 		text-edge: cap;
 
-		color: #FFEECC;
+		color: var(--primary-white);
 
 		animation: textSlide 60s linear infinite;
 
@@ -182,7 +182,7 @@
 	}
 
 	.about {
-		background-color: #15788C;
+		background-color: var(--secondary-accent);
 
 		width: 693px;
 		height: 100%;

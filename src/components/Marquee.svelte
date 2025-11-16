@@ -152,7 +152,7 @@
     .marquee-background {
         width: 100%;
         height: 460px;
-        background: #47425E;
+        background: var(--secondary-black);
 
         overflow: hidden;
         position: relative;
@@ -169,7 +169,7 @@
         bottom: 0px;
         left: -667px;
 
-        fill: #FFEECC;
+        fill: var(--primary-white);
 
         animation: marquee1 55s linear infinite;
     }
@@ -178,7 +178,7 @@
         top: 0px;
         left: -1334px;
 
-        fill: #FFB1A3;
+        fill: var(--primary-accent);
 
         animation: marquee2 50s linear infinite;
     }
@@ -187,7 +187,7 @@
         left: 0px;
         bottom: 0px;
 
-        fill: #FF6A73;
+        fill: var(--primary-color);
 
         animation: marquee3 65s linear infinite;
     }
