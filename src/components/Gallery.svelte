@@ -24,7 +24,7 @@
         height: 266px;
         min-height: 266px;
 
-        background-color: var(--primary-accent);
+        background-color: #02B9BE;
 
         overflow: hidden;
 
@@ -39,20 +39,20 @@
         width: 100%;
         height: 100%;
 
-        transform: translate3d(0px, 0px, 0px);
+        transform: translateX(0px);
         scale: 6;
 
-        animation: slideX 70s linear infinite;
+        animation: linesX 120s linear infinite;
 
         will-change: transform;
     }
 
-    @keyframes slideX {
+    @keyframes linesX {
         from {
-            transform: translate3d(0px, 0px, 0px);
+            transform: translateX(0px);
         }
         to {
-            transform: translate3d(508.8px, 0px, 0px);
+            transform: translateX(254.4px);
         }
     }
 </style>

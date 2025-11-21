@@ -124,14 +124,14 @@
 
 		height: 266px;
 
-		background-color: var(--primary-color);
+		background-color: var(--secondary-color);
 	}
 
 	.quote {
-		border: 24px solid var(--primary-color);
+		border: 24px solid var(--secondary-color);
 		box-sizing: border-box;
 
-		background-color: var(--primary-accent);
+		background-color: var(--secondary-accent);
 
 		height: 266px;
 		width: 416px;
