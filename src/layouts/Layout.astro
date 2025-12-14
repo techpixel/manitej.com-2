@@ -31,14 +31,26 @@
 		width: 100%;
 		height: 100%;
 
-		background-color: var(--primary-color);
+		background-image: url('/bg.svg');
+		background-color: #47425E;
+
+		overflow: scroll;
+		overflow-x: hidden;
 	}
 
 	body {
-		border-left: var(--primary-color) 24px solid;
-		border-right: var(--primary-color) 24px solid;
-		border-top: var(--primary-color) 30px solid;
-		
 		box-sizing: border-box;
+
+		width: 839px;
+		margin: 140px auto;
+
+		background-image: none;
+		background: #47425E;
+
+		border: 4px solid rgba(0, 0, 0, 0.2);
+		box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+		border-radius: 20px;
+
+		overflow: clip;
 	}
 </style>

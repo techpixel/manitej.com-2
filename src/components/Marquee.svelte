@@ -150,8 +150,10 @@
 
 <style>
     .marquee-background {
+        margin-top: 8px;
+
         width: 100%;
-        height: 460px;
+        height: 300px;
         background: var(--secondary-black);
 
         overflow: hidden;
@@ -163,10 +165,12 @@
         display: flex;
         gap: 64px;
         overflow: visible;
+
+        scale: 0.5;
     }
 
     #marq3 {
-        bottom: 0px;
+        top: -10%;
         left: -667px;
 
         fill: var(--primary-white);
@@ -175,7 +179,7 @@
     }
 
     #marq2 {
-        top: 0px;
+        bottom: -25%;
         left: -1334px;
 
         fill: var(--primary-accent);
@@ -185,7 +189,7 @@
 
     #marq1 {
         left: 0px;
-        bottom: 0px;
+        bottom: -25%;
 
         fill: var(--primary-color);
 
