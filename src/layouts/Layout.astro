@@ -3,12 +3,27 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+
+	    <link rel="icon" type="image/png" href="/favicon.png" />
+		<title>manitej.com</title>
+
+		<meta property="og:title" content="this is manitej.com" />
+    	<meta property="og:type" content="website" />
+    	<meta property="og:url" content="https://manitej.com/" />
+	    <meta property="og:image" content="/banner.png" />
+		<meta property="og:description" content="hey! i'm manitej, and this is manitej.com!" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 	</head>
 	<body>
-		<slot />
+		<h1 class="title">YOU’RE ON MANITEJ DOT COM</h1>
+		<div class="outer">
+			<slot />
+		</div>
 	</body>
 </html>
 
@@ -27,18 +42,52 @@
 	}
 
 	html, body {
+		position: relative;
+
 		margin: 0;
 		width: 100%;
-		height: 100%;
 
-		background-color: var(--primary-color);
+		background-image: url('/bg.svg');
+		background-color: #47425E;
+		background-size: cover;
+
+		overflow: scroll;
+		overflow-x: hidden;
 	}
 
 	body {
-		border-left: var(--primary-color) 24px solid;
-		border-right: var(--primary-color) 24px solid;
-		border-top: var(--primary-color) 30px solid;
-		
 		box-sizing: border-box;
+
+		width: 839px;
+		margin: 140px auto;
+
+		background-image: none;
+		background: #47425E;
+
+		border: 4px solid rgba(0, 0, 0, 0.2);
+		box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+		border-radius: 20px;
+
+		overflow: visible;
+	}
+
+	.title {
+		/* YOU’RE ON MANITEJ DOT COM */
+		position: absolute;
+		left: 16px;
+		top: -48px;
+
+		font-family: 'Rubik';
+		font-style: normal;
+		font-weight: 600;
+		font-size: 32px;
+		line-height: 80%;
+
+		color: #FF6A73;
+	}
+
+	.outer {
+		border-radius: 16px; 
+		overflow: hidden;
 	}
 </style>
