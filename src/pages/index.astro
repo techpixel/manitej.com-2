@@ -56,6 +56,17 @@ import Card from '../components/Card.svelte';
 			<h2 class="library-coming-soon">coming soon</h2>
 		</div>
 	</Section>
+
+
+	<div class="chroma">
+		<svg width="133" height="24" viewBox="0 0 133 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 0 5.81362e-06)" fill="#15788C"/>
+			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 26.5986 5.81362e-06)" fill="#02B9BE"/>
+			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 53.1992 5.81362e-06)" fill="#FFEECC"/>
+			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 79.7998 5.81362e-06)" fill="#FFB1A3"/>
+			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 106.4 5.81362e-06)" fill="#FF6A73"/>
+		</svg>
+	</div>	
 </Layout>
 
 <style>
@@ -125,5 +136,16 @@ import Card from '../components/Card.svelte';
 		top: 35%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+	}
+
+	.chroma {
+		position: relative;
+		height: 72px;
+		svg {
+			position: absolute;
+			top: 50%;
+			right: 24px;
+			transform: translateY(-50%);
+		}
 	}
 </style>
