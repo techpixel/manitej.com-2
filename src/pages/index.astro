@@ -1,14 +1,61 @@
 ---
-import Marquee from '../components/Marquee.svelte';
-import Library from '../components/Library.svelte';
-import Gallery from '../components/Gallery.svelte'; 
 import Layout from '../layouts/Layout.astro';
-
+import Marquee from '../components/Marquee.svelte';
+import Section from '../components/Section.svelte';
 ---
 
 <Layout>
 	<Marquee client:only />
+
+
+	<div class="special-edition-header">
+		<div class="header-text">
+			<p>Volume II, No. 12</p>
+			<p><strong>SPECIAL EDITION</strong></p>
+			<p>11-11-2011</p>
+		</div>
+	</div>
+
+	<Section title="ABOUT">
+		<p>hey! my name is manitej! 
+
+		i'm a computer science student currently working at Hack Club.
+		
+		stuff i like doing:
+		- learning how to do new things
+		- designing things! i &lt;3 figma
+		- making cool shit</p>
+	</Section>
 </Layout>
 
 <style>
+	.special-edition-header {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+
+		width: 100%;
+		height: 36px;
+
+		background-color: var(--secondary-color);
+		color: var(--primary-white);
+
+		font-family: 'Rubik', sans-serif;
+		font-weight: 500;
+		font-size: 20px;
+
+		.header-text {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+
+			width: 80%;
+
+			* {
+				user-select: none;
+			}
+		}
+	}
 </style>

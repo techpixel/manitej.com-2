@@ -150,7 +150,7 @@
 
 <style>
     .marquee-background {
-        margin-top: 8px;
+        margin: 8px 0;
 
         width: 100%;
         height: 300px;
@@ -171,55 +171,55 @@
 
     #marq3 {
         top: -10%;
-        left: -667px;
+        left: 0;
 
         fill: var(--primary-white);
 
-        animation: marquee1 55s linear infinite;
+        animation: marquee3 35s linear infinite;
     }
 
     #marq2 {
         bottom: -25%;
-        left: -1334px;
+        left: -600px;
 
         fill: var(--primary-accent);
 
-        animation: marquee2 50s linear infinite;
+        animation: marquee2 30s linear infinite;
     }
 
     #marq1 {
-        left: 0px;
         bottom: -25%;
+        left: -300px;
 
         fill: var(--primary-color);
 
-        animation: marquee3 65s linear infinite;
+        animation: marquee1 35s linear infinite;
     }
 
     @keyframes marquee1 {
         0% {
-            transform: translate3d(-2085px, 0, 0);
+            transform: translate3d(-6926px, 0, 0);
         }
         100% {
-            transform: translate3d(0, 0, 0);
+            transform: translate3d(-3463px, 0, 0);
         }
     }
 
     @keyframes marquee2 {
         0% {
-            transform: translate3d(-2888px, 0, 0);
+            transform: translate3d(-5712px, 0, 0);
         }
         100% {
-            transform: translate3d(0, 0, 0);
+            transform: translate3d(-2856px, 0, 0);
         }
     }
 
     @keyframes marquee3 {
         0% {
-            transform: translate3d(-3495px, 0, 0);
+            transform: translate3d(-4106px, 0, 0);
         }
         100% {
-            transform: translate3d(0, 0, 0);
+            transform: translate3d(-2053px, 0, 0);
         }
     }
 </style>
