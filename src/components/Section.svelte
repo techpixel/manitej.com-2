@@ -1,8 +1,8 @@
 <script lang="ts">
-    const { title, children } = $props();
+    const { title, children, color } = $props();
 </script>
 
-<div class="section">
+<div class="section" style={`background: ${color}`}>
     <h3 class="header">{title}</h3>
     <div class="inner">
         {@render children()}
@@ -15,7 +15,7 @@
         width: 100%;
         min-height: 240px;
 
-        overflow: auto;
+        overflow: hidden;
     }
 
     .section .header {
@@ -41,11 +41,11 @@
     }
 
     .section .inner {
-        position: relative;
-        width: 70%;
+        width: 75%;
 
-        left: 80px;
-        top: 32px;
+        margin-left: 80px;
+        margin-top: 32px;
+        margin-bottom: 32px;
 
         font-family: 'Bricolage Grotesque';
         font-style: normal;

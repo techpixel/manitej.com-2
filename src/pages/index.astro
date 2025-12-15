@@ -2,11 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import Marquee from '../components/Marquee.svelte';
 import Section from '../components/Section.svelte';
+import Card from '../components/Card.svelte';
 ---
 
 <Layout>
 	<Marquee client:only />
-
 
 	<div class="special-edition-header">
 		<div class="header-text">
@@ -17,14 +17,44 @@ import Section from '../components/Section.svelte';
 	</div>
 
 	<Section title="ABOUT">
-		<p>hey! my name is manitej! 
-
-		i'm a computer science student currently working at Hack Club.
-		
-		stuff i like doing:
-		- learning how to do new things
-		- designing things! i &lt;3 figma
+		<p>hey! my name is manitej! <br>
+		<br>
+		i'm a computer science student currently working at Hack Club.<br>
+		<br>
+		stuff i like doing:<br>
+		- learning how to do new things<br>
+		- designing things! i &lt;3 figma<br>
 		- making cool shit</p>
+	</Section>
+
+	<div class="accent-divider">
+		<div class="inner" />
+	</div>
+
+	<Section title="PROJECTS" color="#FF6A73">
+		<div class="cards">
+			<Card 
+				logo="/projects/arcade.svg" 
+				style='background-image: url("/projects/arcade_bg.png"); background-size: contain;'
+				href="https://hackclub.com/arcade"
+			/>
+			<Card 
+				logo="/projects/midnight.svg" 
+				style='background-image: url("/projects/midnight_bg.png"); background-size: cover;'
+				href="https://midnight.hackclub.com/"
+			/>
+			<Card 
+				logo="/projects/campfire.svg" 
+				style='background-image: url("/projects/campfire_bg.png"); background-size: cover;'
+				href="https://campfire.hackclub.com/"
+			/>
+		</div>
+	</Section>
+
+	<Section title="LIBRARY" color="#02B9BE">
+		<div style="height: 300px; position: relative;">
+			<h2 class="library-coming-soon">coming soon</h2>
+		</div>
 	</Section>
 </Layout>
 
@@ -57,5 +87,43 @@ import Section from '../components/Section.svelte';
 				user-select: none;
 			}
 		}
+	}
+
+	.accent-divider {
+		width: 100%;
+		height: 36px;
+
+		background-color: var(--secondary-black);
+
+		.inner {
+			width: 100%;
+			height: 100%;
+
+			background-image: url('/public/circle.svg');
+			background-repeat: space;
+
+			background-position: center center;
+		}
+	}
+
+	.cards {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	.library-coming-soon {
+		font-family: 'Rubik';
+		font-style: italic;
+		font-weight: 700;
+		font-size: 32px;
+		line-height: 100%;text-align: center;color: #FFEECC;	
+		text-align: center;
+		color: #FFEECC;
+
+		position: absolute;
+		top: 35%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 </style>
