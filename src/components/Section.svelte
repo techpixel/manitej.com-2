@@ -41,9 +41,9 @@
     }
 
     .section .inner {
-        width: 75%;
+        width: 85%;
 
-        margin-left: 80px;
+        margin-left: 96px;
         margin-top: 32px;
         margin-bottom: 32px;
 

@@ -2,26 +2,37 @@
     const { logo, style, href } = $props();
 </script>
 
-<a class="card" style={style} href={href}>
-    <img class="logo" src={logo} alt="Card Logo" />
+<a class="card" href={href}>
+    <div class="inner" style={style}>
+        <img class="logo" src={logo} alt="Card Logo" />
+    </div>
 </a>
 
 <style>
     .card {
-        width: 100%;
-        padding: 32px;
+        border: none;
+        cursor: pointer;
+
+        transform: translateY(8px) translateX(-8px);
+
+        background: rgba(0, 0, 0, 0.25);
+        
+        border-radius: 16px;
+    }
+
+    .inner {
         border: 4px solid #47425E;
         border-radius: 16px;
 
-        translate: 0px 0px;
-        box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
-        
-        transition: all 600ms cubic-bezier(0.3, 0.7, 0.4, 1);        
+        transform: translateY(-4px) translateX(-4px);
+        transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);        
+
+        padding: 32px;
     }
 
-    .card:hover {
-        translate: 4px 4px;
-        box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+    .card:hover .inner {
+        transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);        
+        transform: translateY(-0px) translateX(0px);
 
         cursor: pointer;
     }
