@@ -237,8 +237,15 @@ const projectPanels = projects.filter(
 		/* total grid = 3 × cover-style tile, preserving 1541:613 */
 		width: calc(3 * max(115vw, calc(115vh * 1541 / 613)));
 		aspect-ratio: 1541 / 613;
-		animation: slide-grid 200s linear infinite;
+		opacity: 0;
+		animation:
+			slide-grid 200s linear infinite,
+			warp-fade-in 700ms ease 50ms forwards;
 		will-change: transform;
+	}
+
+	@keyframes warp-fade-in {
+		to { opacity: 1; }
 	}
 
 	@keyframes slide-grid {
@@ -254,6 +261,8 @@ const projectPanels = projects.filter(
 		width: min(92vw, 1500px);
 		aspect-ratio: 4362 / 203;
 		pointer-events: none;
+		opacity: 0;
+		animation: warp-fade-in 700ms ease 50ms forwards;
 		transition: opacity 300ms ease;
 	}
 
@@ -312,10 +321,11 @@ const projectPanels = projects.filter(
 	}
 
 	/* Per-column stagger so each column does its own (line → header → links)
-	   sequence, with the next column starting partway through the previous. */
-	.content-col { --col-delay: 0ms; }
-	.content-col:nth-child(3) { --col-delay: 800ms; }
-	.content-col:nth-child(4) { --col-delay: 1600ms; }
+	   sequence, with the next column starting partway through the previous.
+	   Initial 600ms gap before anything animates so the page settles first. */
+	.content-col { --col-delay: 600ms; }
+	.content-col:nth-child(3) { --col-delay: 1400ms; }
+	.content-col:nth-child(4) { --col-delay: 2200ms; }
 
 	/* Vertical divider draws down at the column's left edge */
 	.content-col::before {
@@ -366,10 +376,11 @@ const projectPanels = projects.filter(
 		transform: translateX(0);
 	}
 
-	/* MOTD column fades in around when the last column finishes */
+	/* MOTD column fades in when the PROJECTS links start flying in
+	   (--col-delay 600ms + 1500ms link offset = 2100ms after reveal). */
 	.content-col.motd > * {
 		opacity: 0;
-		transition: opacity 900ms ease 3500ms;
+		transition: opacity 900ms ease 2100ms;
 	}
 
 	.stage.revealed .content-col.motd > * {
