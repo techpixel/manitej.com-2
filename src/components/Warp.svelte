@@ -170,6 +170,16 @@
         const warp = new Warp(svgEl);
         warp.interpolate(interpolation);
 
+        // Once the SVG has been parsed and the first warp transform applied,
+        // tag the host with `.warp-ready` so the parent stylesheet can fade
+        // it in. Force a reflow + wait two frames so the browser actually
+        // paints the initial `opacity: 0` state before the class flips —
+        // otherwise the transition is collapsed to a single frame and skipped.
+        void host.offsetHeight;
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => host.classList.add('warp-ready'));
+        });
+
         let raf = 0;
         const start = performance.now();
 

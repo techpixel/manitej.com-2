@@ -284,7 +284,9 @@ const projectPanels = projects.filter(
 		will-change: transform;
 	}
 
-	.stage.revealed .bg-track :global(.bg-grid) {
+	/* Warp.svelte adds .warp-ready once its SVG is mounted + first frame is
+	   transformed, so the fade-in only starts once there's something to see. */
+	.bg-track :global(.bg-grid.warp-ready) {
 		opacity: 1;
 	}
 
@@ -307,7 +309,7 @@ const projectPanels = projects.filter(
 		transition: opacity 700ms ease 50ms, filter 500ms ease;
 	}
 
-	.stage.revealed :global(.foreground) {
+	:global(.foreground.warp-ready) {
 		opacity: 1;
 	}
 
