@@ -517,19 +517,23 @@ const projectPanels = projects.filter(
 	}
 
 	/* Hovering a project link in the menu hides the default MOTD and shows
-	   that project's panel. One :has() rule per project that has a panel. */
-	.content:has(a[data-project="arcade"]:hover) .panel.default,
-	.content:has(a[data-project="midnight"]:hover) .panel.default,
-	.content:has(a[data-project="campfire"]:hover) .panel.default,
-	.content:has(a[data-project="horizons"]:hover) .panel.default {
-		opacity: 0;
-	}
+	   that project's panel. Wrapped in @media (hover: hover) so it doesn't
+	   trigger on touch devices — there, the first tap should follow the link
+	   directly instead of priming a hover panel that needs a second tap. */
+	@media (hover: hover) {
+		.content:has(a[data-project="arcade"]:hover) .panel.default,
+		.content:has(a[data-project="midnight"]:hover) .panel.default,
+		.content:has(a[data-project="campfire"]:hover) .panel.default,
+		.content:has(a[data-project="horizons"]:hover) .panel.default {
+			opacity: 0;
+		}
 
-	.content:has(a[data-project="arcade"]:hover) .panel[data-project="arcade"],
-	.content:has(a[data-project="midnight"]:hover) .panel[data-project="midnight"],
-	.content:has(a[data-project="campfire"]:hover) .panel[data-project="campfire"],
-	.content:has(a[data-project="horizons"]:hover) .panel[data-project="horizons"] {
-		opacity: 1;
+		.content:has(a[data-project="arcade"]:hover) .panel[data-project="arcade"],
+		.content:has(a[data-project="midnight"]:hover) .panel[data-project="midnight"],
+		.content:has(a[data-project="campfire"]:hover) .panel[data-project="campfire"],
+		.content:has(a[data-project="horizons"]:hover) .panel[data-project="horizons"] {
+			opacity: 1;
+		}
 	}
 
 	.panel.project {
