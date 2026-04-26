@@ -59,18 +59,20 @@ const projectPanels = projects.filter(
 <Layout>
 	<main class="stage" id="stage">
 		<div class="bg-track">
-			<Warp
-				client:only="svelte"
-				svg={background}
-				mode="tide"
-				fit="natural"
-				class="bg-grid"
-				interpolation={180}
-				amplitude={22}
-				speed={0.15}
-				tilesX={3}
-				tilesY={3}
-			/>
+			<div class="bg-zoom">
+				<Warp
+					client:only="svelte"
+					svg={background}
+					mode="tide"
+					fit="natural"
+					class="bg-grid"
+					interpolation={180}
+					amplitude={22}
+					speed={0.15}
+					tilesX={3}
+					tilesY={3}
+				/>
+			</div>
 		</div>
 
 		<Warp
@@ -183,6 +185,29 @@ const projectPanels = projects.filter(
 	requestAnimationFrame(() => requestAnimationFrame(reveal));
 	stage.addEventListener('click', reveal);
 
+	// Background tile scale shrinks as the cursor approaches the bottom-right
+	// corner. Uses (x * y) so both axes have to be near 1 for the effect to
+	// reach max — top-left = scale 1, bottom-right = scale 0.85. JS lerps
+	// the value each frame so the motion stays smooth even when mousemove
+	// fires rapidly.
+	const bgTrack = stage.querySelector<HTMLElement>('.bg-track');
+	if (bgTrack) {
+		const maxShrink = 0.4;
+		let targetScale = 1;
+		let currentScale = 1;
+		document.addEventListener('mousemove', e => {
+			const x = Math.max(0, Math.min(1, e.clientX / window.innerWidth));
+			const y = Math.max(0, Math.min(1, e.clientY / window.innerHeight));
+			targetScale = 1 - x * y * maxShrink;
+		}, { passive: true });
+		const tickScale = () => {
+			currentScale += (targetScale - currentScale) * 0.06;
+			bgTrack.style.setProperty('--bg-scale', currentScale.toFixed(4));
+			requestAnimationFrame(tickScale);
+		};
+		requestAnimationFrame(tickScale);
+	}
+
 	// Per-column parallax drift — each column drifts in response to the
 	// cursor's position relative to that column. CSS handles smooth exit.
 	const cols = stage.querySelectorAll<HTMLElement>('.content-col:not(.about)');
@@ -216,6 +241,17 @@ const projectPanels = projects.filter(
 		inset: 0;
 		overflow: hidden;
 		pointer-events: none;
+	}
+
+	/* The .bg-zoom wrapper is what actually scales — the .bg-track stays
+	   at viewport size with overflow:hidden so scaling the inner SVG just
+	   reveals more tiles instead of clipping the viewport. The scale value
+	   is lerped each frame in JS, so no CSS transition is needed. */
+	.bg-zoom {
+		position: absolute;
+		inset: 0;
+		transform: scale(var(--bg-scale, 1));
+		transform-origin: center center;
 	}
 
 	/* One SVG containing a 3×3 grid of watermark tiles. Each tile is
