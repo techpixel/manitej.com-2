@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Warp from '../components/Warp.svelte';
 import foreground from '../assets/foreground.svg?raw';
+import foregroundMobile from '../assets/foreground-mobile.svg?raw';
 import background from '../assets/background.svg?raw';
 
 
@@ -80,7 +81,21 @@ const projectPanels = projects.filter(
 			svg={foreground}
 			mode="wave"
 			fit="natural"
-			class="foreground"
+			class="foreground foreground-desktop"
+			complexity={8}
+			interpolation={40}
+			buffer={30}
+			amplitude={28}
+			speed={1.4}
+			period={520}
+		/>
+
+		<Warp
+			client:only="svelte"
+			svg={foregroundMobile}
+			mode="wave"
+			fit="natural"
+			class="foreground foreground-mobile"
 			complexity={8}
 			interpolation={40}
 			buffer={30}
@@ -307,6 +322,13 @@ const projectPanels = projects.filter(
 		/* Two independent transitions: slow opacity for the page-load fade-in,
 		   fast filter:opacity for the hover-dim so it feels snappy. */
 		transition: opacity 700ms ease 50ms, filter 500ms ease;
+	}
+
+	/* Mobile foreground SVG is sourced from the background.svg (3-line wrapped
+	   layout), so its aspect ratio is different. Hidden on desktop. */
+	:global(.foreground-mobile) {
+		aspect-ratio: 1541 / 613;
+		display: none;
 	}
 
 	:global(.foreground.warp-ready) {
@@ -651,6 +673,19 @@ const projectPanels = projects.filter(
 			margin: 1px 0 1em 0;
 		}
 
+		/* Let the about column hug its content height. Default panel goes
+		   in-flow so .panels sizes to its content; project panels stay
+		   absolutely-positioned and swap in on hover (taps trigger :hover
+		   on iOS Safari, so it still works on touch). */
+		.content-col.about .panels {
+			min-height: 0;
+		}
+
+		.content-col.about .panel.default {
+			position: relative;
+			inset: auto;
+		}
+
 		/* Divider: a static horizontal line above each section. */
 		.content-col::before {
 			left: 0;
@@ -681,13 +716,19 @@ const projectPanels = projects.filter(
 			transition: none;
 		}
 
-		/* Foreground SVG: shrink and re-position to clear the stacked column */
-		:global(.foreground) {
+		/* Swap foregrounds on mobile: hide the wide single-line one, show the
+		   wrapped (background-svg-derived) one positioned on the right side. */
+		:global(.foreground-desktop) {
+			display: none;
+		}
+
+		:global(.foreground-mobile) {
+			display: block;
 			top: 50%;
 			left: auto;
 			right: 16px;
+			width: 50vw;
 			transform: translateY(-50%);
-			width: min(60vw, 320px);
 		}
 	}
 </style>
