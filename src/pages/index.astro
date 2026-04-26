@@ -267,10 +267,18 @@ const projectPanels = projects.filter(
 		left: 32px;
 		top: 0;
 		display: flex;
-		/* Explicit width (max-width alone doesn't force expansion of an
-		   absolute-positioned flex container). -48 from prior so each link
-		   column shrinks by another 16; motd stays at 260. */
-		width: calc(100vw - 400px);
+		/* Width tuning:
+		   - At vw=1440 all three formulas equal 1040px (the look you tuned).
+		   - Above 1440: `100vw - 400px` wins (linear, preserves desktop look).
+		   - Below 1440: `30vw + 608px` wins — columns shrink at only 30%
+		     the rate of the viewport, so each section noticeably expands
+		     in relative width as the viewport narrows.
+		   - Outer min() caps everything at `100vw - 32px` so very small
+		     viewports never push content outside the screen. */
+		width: min(
+			max(calc(100vw - 400px), calc(30vw + 608px)),
+			calc(100vw - 32px)
+		);
 		pointer-events: none;
 	}
 
