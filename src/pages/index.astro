@@ -4,15 +4,6 @@ import Warp from '../components/Warp.svelte';
 import foreground from '../assets/foreground.svg?raw';
 import background from '../assets/background.svg?raw';
 
-// MOTDs — edit / add / remove freely. Each entry is an array of paragraphs.
-// One is picked at random per page render.
-const motds: string[][] = [
-	[
-		"Hey, nice to see ya!",
-		"Welcome to manitej.com!",
-	],
-];
-const motd = motds[Math.floor(Math.random() * motds.length)];
 
 // Projects — links live in the PROJECTS column, and any project with both a
 // `logo` and `bg` also gets a hover panel that takes over the MOTD slot.
@@ -97,10 +88,11 @@ const projectPanels = projects.filter(
 		/>
 
 		<div class="content">
-			<section class="content-col motd">
+			<section class="content-col about">
 				<div class="panels">
 					<div class="panel default">
-						{motd.map(line => <p>{line}</p>)}
+						<p class="lead">hey! i&rsquo;m manitej</p>
+						<p class="bio">i&rsquo;m a designer and computer science student currently working at Hack Club.</p>
 					</div>
 					{projectPanels.map(p => (
 						<div class="panel project" data-project={p.id}>
@@ -193,7 +185,7 @@ const projectPanels = projects.filter(
 
 	// Per-column parallax drift — each column drifts in response to the
 	// cursor's position relative to that column. CSS handles smooth exit.
-	const cols = stage.querySelectorAll<HTMLElement>('.content-col:not(.motd)');
+	const cols = stage.querySelectorAll<HTMLElement>('.content-col:not(.about)');
 	const driftRange = 8; // px; max drift at the corners
 	for (const col of cols) {
 		col.addEventListener('mousemove', e => {
@@ -348,47 +340,47 @@ const projectPanels = projects.filter(
 	}
 
 	/* Header flies out from behind the line. */
-	.content-col:not(.motd) > h3 {
+	.content-col:not(.about) > h3 {
 		transform: translateX(-110%);
 		transition: transform 1000ms ease;
 		transition-delay: calc(var(--col-delay) + 800ms);
 	}
 
-	.stage.revealed .content-col:not(.motd) > h3 {
+	.stage.revealed .content-col:not(.about) > h3 {
 		transform: translateX(0);
 	}
 
 	/* Each link in the list flies out one-by-one after the header. */
-	.content-col:not(.motd) > ul > li {
+	.content-col:not(.about) > ul > li {
 		--link-i: 0;
 		transform: translateX(-110%);
 		transition: transform 800ms ease;
 		transition-delay: calc(var(--col-delay) + 1500ms + var(--link-i) * 200ms);
 	}
 
-	.content-col:not(.motd) > ul > li:nth-child(2) { --link-i: 1; }
-	.content-col:not(.motd) > ul > li:nth-child(3) { --link-i: 2; }
-	.content-col:not(.motd) > ul > li:nth-child(4) { --link-i: 3; }
-	.content-col:not(.motd) > ul > li:nth-child(5) { --link-i: 4; }
-	.content-col:not(.motd) > ul > li:nth-child(6) { --link-i: 5; }
+	.content-col:not(.about) > ul > li:nth-child(2) { --link-i: 1; }
+	.content-col:not(.about) > ul > li:nth-child(3) { --link-i: 2; }
+	.content-col:not(.about) > ul > li:nth-child(4) { --link-i: 3; }
+	.content-col:not(.about) > ul > li:nth-child(5) { --link-i: 4; }
+	.content-col:not(.about) > ul > li:nth-child(6) { --link-i: 5; }
 
-	.stage.revealed .content-col:not(.motd) > ul > li {
+	.stage.revealed .content-col:not(.about) > ul > li {
 		transform: translateX(0);
 	}
 
 	/* MOTD column fades in when the PROJECTS links start flying in
 	   (--col-delay 600ms + 1500ms link offset = 2100ms after reveal). */
-	.content-col.motd > * {
+	.content-col.about > * {
 		opacity: 0;
 		transition: opacity 900ms ease 2100ms;
 	}
 
-	.stage.revealed .content-col.motd > * {
+	.stage.revealed .content-col.about > * {
 		opacity: 1;
 	}
 
 	/* MOTD column has no rule on its left and is right-aligned */
-	.content-col.motd {
+	.content-col.about {
 		flex: 0 0 260px;
 		padding-left: 0;
 		padding-right: 0;
@@ -397,26 +389,42 @@ const projectPanels = projects.filter(
 
 	/* Visual gap between MOTD and the first link column. It's a margin (not
 	   a flex gap or padding) so neither column claims hover/parallax in it. */
-	.content-col.motd + .content-col {
+	.content-col.about + .content-col {
 		margin-left: 32px;
 	}
 
-	.content-col.motd::before {
+	.content-col.about::before {
 		display: none;
 	}
 
-	.content-col.motd .panel.default p {
-		margin: 16px 0 1em 0;
+	/* About panel — replaces the old MOTD */
+	.content-col.about .panel.default {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.content-col.about .panel.default p {
+		margin: 0;
+	}
+
+	.content-col.about .panel.default .lead {
+		margin-top: 16px;
+		font-size: 24px;
+	}
+
+	.content-col.about .panel.default .bio {
+		font-size: 20px;
 	}
 
 	/* Stacked panels swap on link hover */
-	.content-col.motd .panels {
+	.content-col.about .panels {
 		position: relative;
 		width: 100%;
 		min-height: 200px;
 	}
 
-	.content-col.motd .panel {
+	.content-col.about .panel {
 		position: absolute;
 		inset: 0;
 		opacity: 0;
@@ -424,7 +432,7 @@ const projectPanels = projects.filter(
 		pointer-events: none;
 	}
 
-	.content-col.motd .panel.default {
+	.content-col.about .panel.default {
 		opacity: 1;
 	}
 
@@ -546,7 +554,7 @@ const projectPanels = projects.filter(
 	/* ───── Collapsed layout: narrow viewports stack vertically ──────────
 	   - .content turns into a single 184px-wide column at left:16px
 	   - dividers are static horizontal lines above each section
-	   - text is left-aligned (motd loses its right-align)
+	   - text is left-aligned (about loses its right-align)
 	   - all reveal/slide animations are off; overflow is allowed so long
 	     content (e.g. the email link) extends past the column boundary
 	     instead of being clipped */
@@ -567,7 +575,7 @@ const projectPanels = projects.filter(
 			overflow: visible;
 		}
 
-		.content-col.motd {
+		.content-col.about {
 			flex: 0 0 auto;
 			width: 100%;
 			padding: 0;
@@ -575,11 +583,11 @@ const projectPanels = projects.filter(
 			overflow: visible;
 		}
 
-		.content-col.motd + .content-col {
+		.content-col.about + .content-col {
 			margin-left: 0;
 		}
 
-		.content-col.motd .panel.default p {
+		.content-col.about .panel.default p {
 			margin: 1px 0 1em 0;
 		}
 
@@ -595,8 +603,8 @@ const projectPanels = projects.filter(
 		}
 
 		/* Disable the slide-in transforms — content sits at its rest pos. */
-		.content-col:not(.motd) > h3,
-		.content-col:not(.motd) > ul > li {
+		.content-col:not(.about) > h3,
+		.content-col:not(.about) > ul > li {
 			transform: none;
 			transition: none;
 		}
@@ -608,7 +616,7 @@ const projectPanels = projects.filter(
 		}
 
 		/* MOTD panel reveal animation off too. */
-		.content-col.motd > * {
+		.content-col.about > * {
 			opacity: 1;
 			transition: none;
 		}
