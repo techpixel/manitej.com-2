@@ -1,151 +1,526 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Marquee from '../components/Marquee.svelte';
-import Section from '../components/Section.svelte';
-import Card from '../components/Card.svelte';
+import Warp from '../components/Warp.svelte';
+import foreground from '../assets/foreground.svg?raw';
+import background from '../assets/background.svg?raw';
+
+// MOTDs — edit / add / remove freely. Each entry is an array of paragraphs.
+// One is picked at random per page render.
+const motds: string[][] = [
+	[
+		"Hey, nice to see ya!",
+		"Welcome to manitej.com!",
+	],
+];
+const motd = motds[Math.floor(Math.random() * motds.length)];
+
+// Projects — links live in the PROJECTS column, and any project with both a
+// `logo` and `bg` also gets a hover panel that takes over the MOTD slot.
+type Project = {
+	id: string;
+	title: string;
+	href: string;
+	logo?: string;
+	bg?: string;
+	description?: string;
+};
+
+const projects: Project[] = [
+	{
+		id: 'arcade',
+		title: 'Arcade',
+		href: 'https://hackclub.com/arcade',
+		logo: '/projects/arcade.svg',
+		bg: '/projects/arcade_bg.png',
+		description: 'My first major project. Hack Club’s first general YSWS.',
+	},
+	{
+		id: 'midnight',
+		title: 'Midnight',
+		href: 'https://midnight.hackclub.com',
+		logo: '/projects/midnight.svg',
+		bg: '/projects/midnight_bg.png',
+		description: 'A murder mystery hackathon in Vienna!',
+	},
+	{
+		id: 'campfire',
+		title: 'Campfire',
+		href: 'https://campfire.hackclub.com',
+		logo: '/projects/campfire.svg',
+		bg: '/projects/campfire_bg.png',
+		description: 'A game jam happening across 200+ cities simulatenously.',
+	},
+	{
+		id: 'horizons',
+		title: 'Horizons',
+		href: 'https://horizons.hackclub.com',
+		logo: '/projects/horizons.svg',
+		bg: '/projects/horizons_bg.png',
+		description: '7 flagship hackathons across 7 continents. You\'re invited.',
+	},
+];
+
+const projectPanels = projects.filter(
+	(p): p is Required<Project> => Boolean(p.logo && p.bg && p.description)
+);
 ---
 
 <Layout>
-	<Marquee client:only />
-
-	<div class="special-edition-header">
-		<div class="header-text">
-			<p>Volume II, No. 12</p>
-			<p><strong>SPECIAL EDITION</strong></p>
-			<p>11-11-2011</p>
-		</div>
-	</div>
-
-	<Section title="ABOUT">
-		<p>hey! my name is manitej! <br>
-		<br>
-		i'm a computer science student currently working at Hack Club.<br>
-		<br>
-		stuff i like doing:<br>
-		- learning how to do new things<br>
-		- designing things! i &lt;3 figma<br>
-		- making cool shit</p>
-	</Section>
-
-	<div class="accent-divider">
-		<div class="inner" />
-	</div>
-
-	<Section title="PROJECTS" color="#FF6A73">
-		<div class="cards">
-			<Card 
-				logo="/projects/arcade.svg" 
-				style='background-image: url("/projects/arcade_bg.png"); background-size: contain;'
-				href="https://hackclub.com/arcade"
-			/>
-			<Card 
-				logo="/projects/midnight.svg" 
-				style='background-image: url("/projects/midnight_bg.png"); background-size: cover;'
-				href="https://midnight.hackclub.com/"
-			/>
-			<Card 
-				logo="/projects/campfire.svg" 
-				style='background-image: url("/projects/campfire_bg.png"); background-size: cover;'
-				href="https://campfire.hackclub.com/"
+	<main class="stage" id="stage">
+		<div class="bg-track">
+			<Warp
+				client:only="svelte"
+				svg={background}
+				mode="tide"
+				fit="natural"
+				class="bg-grid"
+				interpolation={180}
+				amplitude={22}
+				speed={0.15}
+				tilesX={3}
+				tilesY={3}
 			/>
 		</div>
-	</Section>
 
-	<Section title="LIBRARY" color="#02B9BE">
-		<div style="height: 300px; position: relative;">
-			<h2 class="library-coming-soon">coming soon</h2>
+		<Warp
+			client:only="svelte"
+			svg={foreground}
+			mode="wave"
+			fit="natural"
+			class="foreground"
+			complexity={8}
+			interpolation={40}
+			buffer={30}
+			amplitude={28}
+			speed={1.4}
+			period={520}
+		/>
+
+		<div class="content">
+			<section class="content-col motd">
+				<div class="panels">
+					<div class="panel default">
+						{motd.map(line => <p>{line}</p>)}
+					</div>
+					{projectPanels.map(p => (
+						<div class="panel project" data-project={p.id}>
+							<h4>{p.title.toUpperCase()}</h4>
+							<div class="logo-card" style={`background-image: url('${p.bg}')`}>
+								<img src={p.logo} alt={p.title} class="logo" />
+							</div>
+							<p class="caption">{p.description}</p>
+						</div>
+					))}
+				</div>
+			</section>
+
+			<section class="content-col" style="--col-color: #FF6A73;">
+				<h3>PROJECTS</h3>
+				<ul>
+					{projects.map(p => (
+						<li><a href={p.href} data-project={p.id} target="_blank" rel="noopener">{p.title}</a></li>
+					))}
+				</ul>
+			</section>
+
+			<section class="content-col" style="--col-color: #02B9BE;">
+				<h3>CONTACT</h3>
+				<ul>
+					<li>email me at <a href="#" class="email-link" data-user="me" data-domain="manitej.com" aria-label="Copy email address"></a></li>
+				</ul>
+			</section>
+
+			<section class="content-col" style="--col-color: #FFB1A3;">
+				<h3>BLOG</h3>
+				<ul>
+					<li>coming soon</li>
+				</ul>
+			</section>
 		</div>
-	</Section>
-
-
-	<div class="chroma">
-		<svg width="133" height="24" viewBox="0 0 133 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 0 5.81362e-06)" fill="#15788C"/>
-			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 26.5986 5.81362e-06)" fill="#02B9BE"/>
-			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 53.1992 5.81362e-06)" fill="#FFEECC"/>
-			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 79.7998 5.81362e-06)" fill="#FFB1A3"/>
-			<rect width="23.9375" height="26.5998" transform="matrix(4.37114e-08 1 1 -4.37114e-08 106.4 5.81362e-06)" fill="#FF6A73"/>
-		</svg>
-	</div>	
+	</main>
 </Layout>
 
-<style>
-	.special-edition-header {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
+<script>
+	// Toast text shown when the email is copied. Each successive click pulls
+	// the next entry; cycles when the end is reached. Edit / add freely.
+	const copiedMessages: string[] = [
+		'copied!',
+		'copied!',
+		'copied!',
+		'okay',
+	];
 
-		width: 100%;
-		height: 36px;
+	// Email link — visible text and the real address are both built at runtime
+	// from data-* parts so neither the obfuscated nor the literal address
+	// appears in the static HTML. Click copies the address; a small italic
+	// toast appears underneath briefly.
+	for (const link of document.querySelectorAll<HTMLAnchorElement>('.email-link')) {
+		const user = link.dataset.user ?? '';
+		const domain = link.dataset.domain ?? '';
+		const display = `(${user} at ${domain.replace(/\./g, ' dot ')})`;
+		const real = `${user}@${domain}`;
+		link.textContent = display;
 
-		background-color: var(--secondary-color);
-		color: var(--primary-white);
-
-		font-family: 'Rubik', sans-serif;
-		font-weight: 500;
-		font-size: 20px;
-
-		.header-text {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			justify-content: space-between;
-
-			width: 80%;
-
-			* {
-				user-select: none;
+		let note: HTMLDivElement | null = null;
+		let timer: number | null = null;
+		let clicks = 0;
+		link.addEventListener('click', async e => {
+			e.preventDefault();
+			try {
+				await navigator.clipboard.writeText(real);
+				if (!note) {
+					note = document.createElement('div');
+					note.className = 'copied-note';
+					link.parentElement?.appendChild(note);
+				}
+				note.textContent = copiedMessages[clicks % copiedMessages.length];
+				clicks++;
+				note.classList.add('show');
+				if (timer) clearTimeout(timer);
+				timer = window.setTimeout(() => note?.classList.remove('show'), 1400);
+			} catch {
+				// clipboard blocked — fall back to mailto
+				window.location.href = `mailto:${real}`;
 			}
-		}
+		});
 	}
 
-	.accent-divider {
+	const stage = document.getElementById('stage')!;
+	const reveal = () => stage.classList.add('revealed');
+	// Defer one frame so the initial state paints and transitions fire
+	requestAnimationFrame(() => requestAnimationFrame(reveal));
+	stage.addEventListener('click', reveal);
+
+	// Per-column parallax drift — each column drifts in response to the
+	// cursor's position relative to that column. CSS handles smooth exit.
+	const cols = stage.querySelectorAll<HTMLElement>('.content-col:not(.motd)');
+	const driftRange = 8; // px; max drift at the corners
+	for (const col of cols) {
+		col.addEventListener('mousemove', e => {
+			const r = col.getBoundingClientRect();
+			const dx = ((e.clientX - r.left) / r.width - 0.5) * 2 * driftRange;
+			const dy = ((e.clientY - r.top) / r.height - 0.5) * 2 * driftRange;
+			col.style.setProperty('--drift-x', `${dx.toFixed(2)}px`);
+			col.style.setProperty('--drift-y', `${dy.toFixed(2)}px`);
+		});
+		col.addEventListener('mouseleave', () => {
+			col.style.removeProperty('--drift-x');
+			col.style.removeProperty('--drift-y');
+		});
+	}
+</script>
+
+<style>
+	.stage {
+		position: relative;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		background: #000000;
+	}
+
+	.bg-track {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	/* One SVG containing a 3×3 grid of watermark tiles. Each tile is
+	   cover-sized so a single watermark fills the viewport; the whole grid
+	   slides diagonally by exactly one tile per cycle and the next identical
+	   tile rolls in from the bottom-right (loop is invisible). */
+	.bg-track :global(.bg-grid) {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		/* total grid = 3 × cover-style tile, preserving 1541:613 */
+		width: calc(3 * max(115vw, calc(115vh * 1541 / 613)));
+		aspect-ratio: 1541 / 613;
+		animation: slide-grid 200s linear infinite;
+		will-change: transform;
+	}
+
+	@keyframes slide-grid {
+		from { transform: translate(-50%, -50%); }
+		to   { transform: translate(calc(-50% - 100% / 3), calc(-50% - 100% / 3)); }
+	}
+
+	:global(.foreground) {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: min(92vw, 1500px);
+		aspect-ratio: 4362 / 203;
+		pointer-events: none;
+		transition: opacity 300ms ease;
+	}
+
+	/* Dim the foreground when the user is interacting with the content. */
+	.stage.revealed:has(.content:hover) :global(.foreground) {
+		opacity: 0.2;
+	}
+
+	.content {
+		position: absolute;
+		left: 32px;
+		top: 0;
+		display: flex;
+		/* Explicit width (max-width alone doesn't force expansion of an
+		   absolute-positioned flex container). -48 from prior so each link
+		   column shrinks by another 16; motd stays at 260. */
+		width: calc(100vw - 400px);
+		pointer-events: none;
+	}
+
+	.stage.revealed .content {
+		pointer-events: auto;
+	}
+
+	.content-col {
+		position: relative;
+		flex: 1 1 0;
+		min-width: 0;
+		min-height: 236px;
+		color: #fff;
+		font-family: 'Darker Grotesque', sans-serif;
+		font-weight: 400;
+		font-size: 20px;
+		line-height: 1;
+		padding-left: 16px;
+		/* Absorbs the previous gap on the right so the column's hover/parallax
+		   area extends to the next column's divider — tracking only ever
+		   happens to the right of this column's own divider. */
+		padding-right: 32px;
+		/* Children that translate from -100% are clipped at the column edge,
+		   so the slide reads as text emerging from behind the divider. */
+		overflow: hidden;
+		transition: color 200ms ease;
+	}
+
+	.content-col:hover {
+		color: var(--col-color, #fff);
+	}
+
+	/* Per-column stagger so each column does its own (line → header → links)
+	   sequence, with the next column starting partway through the previous. */
+	.content-col { --col-delay: 0ms; }
+	.content-col:nth-child(3) { --col-delay: 800ms; }
+	.content-col:nth-child(4) { --col-delay: 1600ms; }
+
+	/* Vertical divider draws down at the column's left edge */
+	.content-col::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 2px;
+		height: 100%;
+		background: #fff;
+		transform-origin: top;
+		transform: scaleY(0);
+		transition: transform 1000ms ease var(--col-delay), background 200ms ease;
+		/* Above the sliding text so it visually emerges from underneath. */
+		z-index: 2;
+	}
+
+	.stage.revealed .content-col::before {
+		transform: scaleY(1);
+	}
+
+	/* Header flies out from behind the line. */
+	.content-col:not(.motd) > h3 {
+		transform: translateX(-110%);
+		transition: transform 1000ms ease;
+		transition-delay: calc(var(--col-delay) + 800ms);
+	}
+
+	.stage.revealed .content-col:not(.motd) > h3 {
+		transform: translateX(0);
+	}
+
+	/* Each link in the list flies out one-by-one after the header. */
+	.content-col:not(.motd) > ul > li {
+		--link-i: 0;
+		transform: translateX(-110%);
+		transition: transform 800ms ease;
+		transition-delay: calc(var(--col-delay) + 1500ms + var(--link-i) * 200ms);
+	}
+
+	.content-col:not(.motd) > ul > li:nth-child(2) { --link-i: 1; }
+	.content-col:not(.motd) > ul > li:nth-child(3) { --link-i: 2; }
+	.content-col:not(.motd) > ul > li:nth-child(4) { --link-i: 3; }
+	.content-col:not(.motd) > ul > li:nth-child(5) { --link-i: 4; }
+	.content-col:not(.motd) > ul > li:nth-child(6) { --link-i: 5; }
+
+	.stage.revealed .content-col:not(.motd) > ul > li {
+		transform: translateX(0);
+	}
+
+	/* MOTD column fades in around when the last column finishes */
+	.content-col.motd > * {
+		opacity: 0;
+		transition: opacity 900ms ease 3500ms;
+	}
+
+	.stage.revealed .content-col.motd > * {
+		opacity: 1;
+	}
+
+	/* MOTD column has no rule on its left and is right-aligned */
+	.content-col.motd {
+		flex: 0 0 260px;
+		padding-left: 0;
+		padding-right: 0;
+		text-align: right;
+	}
+
+	/* Visual gap between MOTD and the first link column. It's a margin (not
+	   a flex gap or padding) so neither column claims hover/parallax in it. */
+	.content-col.motd + .content-col {
+		margin-left: 32px;
+	}
+
+	.content-col.motd::before {
+		display: none;
+	}
+
+	.content-col.motd .panel.default p {
+		margin: 16px 0 1em 0;
+	}
+
+	/* Stacked panels swap on link hover */
+	.content-col.motd .panels {
+		position: relative;
 		width: 100%;
-		height: 36px;
-
-		background-color: var(--secondary-black);
-
-		.inner {
-			width: 100%;
-			height: 100%;
-
-			background-image: url('/public/circle.svg');
-			background-repeat: space;
-
-			background-position: center center;
-		}
+		min-height: 200px;
 	}
 
-	.cards {
+	.content-col.motd .panel {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		transition: opacity 200ms ease;
+		pointer-events: none;
+	}
+
+	.content-col.motd .panel.default {
+		opacity: 1;
+	}
+
+	/* Hovering a project link in the menu hides the default MOTD and shows
+	   that project's panel. One :has() rule per project that has a panel. */
+	.content:has(a[data-project="arcade"]:hover) .panel.default,
+	.content:has(a[data-project="midnight"]:hover) .panel.default,
+	.content:has(a[data-project="campfire"]:hover) .panel.default,
+	.content:has(a[data-project="horizons"]:hover) .panel.default {
+		opacity: 0;
+	}
+
+	.content:has(a[data-project="arcade"]:hover) .panel[data-project="arcade"],
+	.content:has(a[data-project="midnight"]:hover) .panel[data-project="midnight"],
+	.content:has(a[data-project="campfire"]:hover) .panel[data-project="campfire"],
+	.content:has(a[data-project="horizons"]:hover) .panel[data-project="horizons"] {
+		opacity: 1;
+	}
+
+	.panel.project {
 		display: flex;
 		flex-direction: column;
-		gap: 24px;
+		gap: 8px;
 	}
 
-	.library-coming-soon {
-		font-family: 'Rubik';
+	.panel.project h4 {
+		margin: 1px 0 0 0;
+		font-family: 'Bowlby One', sans-serif;
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 0.8;
+		color: #fff;
+	}
+
+	.panel.project .logo-card {
+		width: 100%;
+		height: 96px;
+		padding: 16px;
+		box-sizing: border-box;
+		background-color: #faefd6;
+		background-size: cover;
+		background-position: center;
+		overflow: hidden;
+	}
+
+	.panel.project .logo-card .logo {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: center;
+	}
+
+	.panel.project .caption {
+		margin: 0;
+		font-size: 20px;
+		line-height: 1;
+	}
+
+	.content-col h3 {
+		margin: 1px 0 12px 0;
+		font-family: 'Bowlby One', sans-serif;
+		font-weight: 400;
+		font-size: 24px;
+		line-height: 0.8;
+		letter-spacing: 0.01em;
+		transition: color 200ms ease;
+	}
+
+	/* Hovering a column also tints the divider line */
+	.content-col:hover::before {
+		background: var(--col-color, #fff);
+	}
+
+	.content-col ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.content-col a {
+		color: inherit;
+		text-decoration: none;
+		display: inline-block;
+		transform-origin: left center;
+		/* Variable-font weight animates fluidly via font-variation-settings */
+		font-variation-settings: 'wght' 400;
+		transition: font-variation-settings 200ms ease, transform 200ms ease, color 200ms ease;
+	}
+
+	/* Tiny italic "copied!" toast under the email link */
+	.content-col :global(.copied-note) {
 		font-style: italic;
-		font-weight: 700;
-		font-size: 32px;
-		line-height: 100%;text-align: center;color: #FFEECC;	
-		text-align: center;
-		color: #FFEECC;
-
-		position: absolute;
-		top: 35%;
-		left: 50%;
-		transform: translate(-50%, -50%);
+		font-size: 14px;
+		margin-top: 4px;
+		opacity: 0;
+		transition: opacity 200ms ease;
 	}
 
-	.chroma {
-		position: relative;
-		height: 72px;
-		svg {
-			position: absolute;
-			top: 50%;
-			right: 24px;
-			transform: translateY(-50%);
-		}
+	.content-col :global(.copied-note.show) {
+		opacity: 1;
+	}
+
+	.content-col a:hover {
+		font-variation-settings: 'wght' 700;
+		transform: scale(1.12);
+	}
+
+	/* Each link list drifts subtly with the cursor; the variable is set by
+	   JS on the .content element and inherits down through the cols. */
+	.content-col ul {
+		transform: translate(var(--drift-x, 0), var(--drift-y, 0));
+		transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
 	}
 </style>
