@@ -210,7 +210,7 @@ const projectPanels = projects.filter(
 
 	// Per-column parallax drift — each column drifts in response to the
 	// cursor's position relative to that column. CSS handles smooth exit.
-	const cols = stage.querySelectorAll<HTMLElement>('.content-col:not(.about)');
+	const cols = stage.querySelectorAll<HTMLElement>('.content-col');
 	const driftRange = 8; // px; max drift at the corners
 	for (const col of cols) {
 		col.addEventListener('mousemove', e => {
@@ -421,6 +421,9 @@ const projectPanels = projects.filter(
 		padding-left: 0;
 		padding-right: 0;
 		text-align: right;
+		/* No divider here, so the parallax-drifted panels can spill over the
+		   right edge instead of getting clipped. */
+		overflow: visible;
 	}
 
 	/* Visual gap between MOTD and the first link column. It's a margin (not
@@ -580,9 +583,10 @@ const projectPanels = projects.filter(
 		transform: scale(1.12);
 	}
 
-	/* Each link list drifts subtly with the cursor; the variable is set by
-	   JS on the .content element and inherits down through the cols. */
-	.content-col ul {
+	/* Each link list (and the about panels) drift subtly with the cursor;
+	   the variable is set by JS on the column the cursor is over. */
+	.content-col ul,
+	.content-col.about .panels {
 		transform: translate(var(--drift-x, 0), var(--drift-y, 0));
 		transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
 	}
