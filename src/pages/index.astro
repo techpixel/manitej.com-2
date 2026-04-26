@@ -266,14 +266,13 @@ const projectPanels = projects.filter(
 		width: calc(3 * max(115vw, calc(115vh * 1541 / 613)));
 		aspect-ratio: 1541 / 613;
 		opacity: 0;
-		animation:
-			slide-grid 200s linear infinite,
-			warp-fade-in 700ms ease 50ms forwards;
+		animation: slide-grid 200s linear infinite;
+		transition: opacity 700ms ease 50ms;
 		will-change: transform;
 	}
 
-	@keyframes warp-fade-in {
-		to { opacity: 1; }
+	.stage.revealed .bg-track :global(.bg-grid) {
+		opacity: 1;
 	}
 
 	@keyframes slide-grid {
@@ -290,13 +289,18 @@ const projectPanels = projects.filter(
 		aspect-ratio: 4362 / 203;
 		pointer-events: none;
 		opacity: 0;
-		animation: warp-fade-in 700ms ease 50ms forwards;
-		transition: opacity 300ms ease;
+		/* Two independent transitions: slow opacity for the page-load fade-in,
+		   fast filter:opacity for the hover-dim so it feels snappy. */
+		transition: opacity 700ms ease 50ms, filter 500ms ease;
+	}
+
+	.stage.revealed :global(.foreground) {
+		opacity: 1;
 	}
 
 	/* Dim the foreground when the user is interacting with the content. */
 	.stage.revealed:has(.content:hover) :global(.foreground) {
-		opacity: 0.2;
+		filter: opacity(0.2);
 	}
 
 	.content {
@@ -584,11 +588,15 @@ const projectPanels = projects.filter(
 	}
 
 	/* Each link list (and the about panels) drift subtly with the cursor;
-	   the variable is set by JS on the column the cursor is over. */
+	   the variable is set by JS on the column the cursor is over. The opacity
+	   transition is bundled in here so it isn't clobbered by the about col's
+	   .panels selector overriding `transition` on the same element. */
 	.content-col ul,
 	.content-col.about .panels {
 		transform: translate(var(--drift-x, 0), var(--drift-y, 0));
-		transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+		transition:
+			transform 1100ms cubic-bezier(0.16, 1, 0.3, 1),
+			opacity 900ms ease 2100ms;
 	}
 
 	/* ───── Collapsed layout: narrow viewports stack vertically ──────────
