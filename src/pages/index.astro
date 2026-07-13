@@ -383,8 +383,10 @@ const projectPanels = projects.filter(
 		opacity: 1;
 	}
 
-	/* Dim the foreground when the user is interacting with the content. */
-	.stage.revealed:has(.content:hover) :global(.foreground) {
+	/* Dim the foreground only while hovering an actual link — moving the
+	   cursor around columns/panels otherwise leaves the headline at full
+	   strength. */
+	.stage.revealed:has(.content a:hover) :global(.foreground) {
 		filter: opacity(0.2);
 	}
 
