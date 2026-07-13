@@ -151,16 +151,19 @@
         const tileH = vb && vb.height ? vb.height : 0;
         if (!tileW || !tileH) return;
 
-        // Tile via cloned <g transform> blocks. Each cloned path goes through
-        // the same warp transform — for tile borders to line up, the warp
-        // must be position-periodic with period (tileW, tileH); use mode='tide'.
+        // Tile by referencing the original content with <use>. mode='tide'
+        // warps are position-periodic with period (tileW, tileH), so every
+        // tile renders identically — warping the source paths once and
+        // letting <use> replicate them costs 1/(tilesX*tilesY) of warping
+        // cloned paths per tile.
         if (tilesX > 1 || tilesY > 1) {
-            const innerHTML = svgEl.innerHTML;
+            const uid = `warp-tile-${Math.random().toString(36).slice(2)}`;
+            svgEl.innerHTML = `<g id="${uid}">${svgEl.innerHTML}</g>`;
             const fragments: string[] = [];
             for (let y = 0; y < tilesY; y++) {
                 for (let x = 0; x < tilesX; x++) {
                     if (x === 0 && y === 0) continue;
-                    fragments.push(`<g transform="translate(${x * tileW},${y * tileH})">${innerHTML}</g>`);
+                    fragments.push(`<use href="#${uid}" transform="translate(${x * tileW},${y * tileH})"/>`);
                 }
             }
             svgEl.insertAdjacentHTML('beforeend', fragments.join(''));
@@ -183,6 +186,12 @@
         let raf = 0;
         const start = performance.now();
 
+        // display:none instances (e.g. the desktop/mobile foreground pair —
+        // only one is shown at a time) still pay full warp cost per frame
+        // unless we skip them; nothing they compute is ever painted.
+        const isHidden = () =>
+            typeof host.checkVisibility === 'function' && !host.checkVisibility();
+
         if (mode === 'tide') {
             // Per-point sine displacement, periodic with (tileW, tileH) so the
             // warp at (x, y) equals the warp at (x + tileW, y + tileH) — tile
@@ -200,6 +209,10 @@
             window.addEventListener('mousemove', handleMove, { passive: true });
 
             function frame(now: number) {
+                if (isHidden()) {
+                    raf = requestAnimationFrame(frame);
+                    return;
+                }
                 const t = (now - start) / 1000;
                 // Lerp toward the latest cursor pos so the response feels organic
                 smoothMx += (mouseX - smoothMx) * 0.06;
@@ -238,6 +251,10 @@
             if (!animate) return;
 
             function frame(now: number) {
+                if (isHidden()) {
+                    raf = requestAnimationFrame(frame);
+                    return;
+                }
                 const t = (now - start) / 1000;
                 pts = animate!(base, t);
                 warpReposition(warp, pts);
