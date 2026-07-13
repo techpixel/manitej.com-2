@@ -139,12 +139,14 @@ const projectPanels = projects.filter(
 				</ul>
 			</section>
 
+			{/* Temporarily hidden — restore by uncommenting.
 			<section class="content-col" style="--col-color: #FFB1A3;">
 				<h3>BLOG</h3>
 				<ul>
 					<li>coming soon</li>
 				</ul>
 			</section>
+			*/}
 		</div>
 	</main>
 </Layout>
@@ -345,18 +347,9 @@ const projectPanels = projects.filter(
 		left: 32px;
 		top: 0;
 		display: flex;
-		/* Width tuning:
-		   - At vw=1440 all three formulas equal 1040px (the look you tuned).
-		   - Above 1440: `100vw - 400px` wins (linear, preserves desktop look).
-		   - Below 1440: `30vw + 608px` wins — columns shrink at only 30%
-		     the rate of the viewport, so each section noticeably expands
-		     in relative width as the viewport narrows.
-		   - Outer min() caps everything at `100vw - 32px` so very small
-		     viewports never push content outside the screen. */
-		width: min(
-			max(calc(100vw - 400px), calc(30vw + 608px)),
-			calc(100vw - 32px)
-		);
+		/* Columns are fixed-width blocks, so the container just wraps them
+		   instead of stretching across the viewport. */
+		width: max-content;
 		pointer-events: none;
 	}
 
@@ -366,7 +359,10 @@ const projectPanels = projects.filter(
 
 	.content-col {
 		position: relative;
-		flex: 1 1 0;
+		/* Fixed block width (matches .about's 260px); border-box so the
+		   16/32px hover-area paddings are included in it. */
+		flex: 0 0 260px;
+		box-sizing: border-box;
 		min-width: 0;
 		min-height: 236px;
 		color: #FFEECC;
